@@ -1,3 +1,7 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .invoice-box {
   max-width: 800px;
   margin: auto;
