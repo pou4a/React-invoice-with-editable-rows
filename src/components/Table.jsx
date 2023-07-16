@@ -33,7 +33,10 @@ function Table({ data }) {
 
     const calculateTotalPrice = () => {
         if (cellData) {
-            return cellData.reduce((total, item) => total + item.price, 0);
+            return cellData.reduce(
+                (total, item) => Number(total) + Number(item.price),
+                0
+            );
         }
         return 0;
     };
