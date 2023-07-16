@@ -11,7 +11,7 @@ function Upload() {
             reader.onload = () => {
                 try {
                     const data = JSON.parse(reader.result);
-
+                    console.log("data", data);
                     setJsonData(data);
                 } catch (error) {
                     console.error("Error parsing JSON file:", error);
@@ -25,8 +25,12 @@ function Upload() {
         accept: "application/json",
     });
 
+    console.log({
+        jsonData
+    })
+
     return (
-        <div className="print:hidden" {...getRootProps()}>
+        <div {...getRootProps()}>
             <input {...getInputProps()} />
             {isDragActive ? (
                 <p>Drop the files here ...</p>

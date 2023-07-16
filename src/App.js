@@ -1,11 +1,16 @@
 import "./App.css";
-import React from "react";
+import React, { useState } from "react";
 import Upload from "./components/uploadZone";
-import Table from "./components/table";
+import Table from "./components/InvoiceTable";
 import useFetchInvoice from "./api/Invoice";
 
 function App() {
+    const [showUploadZone, setShowUploadZone] = useState(false);
     const { invoiceData, isLoading, error } = useFetchInvoice();
+
+    const handleUploadZone = () => {
+        setShowUploadZone((prevShowUploadZone) => !prevShowUploadZone);
+    };
 
     if (isLoading) {
         return <>Loading...</>;
@@ -15,8 +20,8 @@ function App() {
     }
     return (
         <>
-            <Table data={invoiceData} />
-            <Upload />
+            <Table data={invoiceData} handleUploadZone={handleUploadZone} />
+            {showUploadZone && <Upload />}
         </>
     );
 }
