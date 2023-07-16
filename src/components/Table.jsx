@@ -1,15 +1,14 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 function Table({ data }) {
     const [editIcon, setEditIcon] = useState([]);
     const [editableRow, setEditableRow] = useState([]);
+    const [cellData, setCellData] = useState([]);
 
-    const editIconHandle = (key) => {
-        setEditIcon((prevRow) => {
-            const rowIcon = [...prevRow];
-            rowIcon[key] = !rowIcon[key];
-            return rowIcon;
-        });
+    const inputOnChnage = (val, key, property) => {
+        const updatedArray = [...cellData];
+        updatedArray[key][property] = val;
+        setCellData(updatedArray);
     };
 
     const editableInputHandle = (key) => {
@@ -20,10 +19,26 @@ function Table({ data }) {
         });
     };
 
-    const totalPrice = data.lineItems
-        ? data.lineItems.reduce((total, item) => total + item.price, 0)
-        : 0;
+    const editIconHandle = (key) => {
+        setEditIcon((prevRow) => {
+            const rowIcon = [...prevRow];
+            rowIcon[key] = !rowIcon[key];
+            return rowIcon;
+        });
+    };
 
+    useEffect(() => {
+        setCellData(data.lineItems);
+    }, []);
+
+    const calculateTotalPrice = () => {
+        if (cellData) {
+            return cellData.reduce((total, item) => total + item.price, 0);
+        }
+        return 0;
+    };
+
+    const totalPrice = calculateTotalPrice();
     const vat = totalPrice * 0.19;
 
     if (!data) {
@@ -130,8 +145,8 @@ function Table({ data }) {
                         </th>
                     </tr>
 
-                    {data.lineItems
-                        ? data.lineItems.map((item, key) => {
+                    {cellData
+                        ? cellData.map((item, key) => {
                               if (!editableRow[key]) {
                                   return (
                                       <tr
@@ -234,15 +249,29 @@ function Table({ data }) {
                                                       defaultValue={
                                                           item.description
                                                       }
+                                                      onChange={(e) =>
+                                                          inputOnChnage(
+                                                              e.target.value,
+                                                              key,
+                                                              "description"
+                                                          )
+                                                      }
                                                       className="border border-gray-300 focus:border-blue-900 focus:ring-blue-900 rounded-md px-3 py-2 w-full"
                                                   />
                                               </div>
                                           </td>
                                           <td className="whitespace-nowrap px-3 py-4 text-md text-zinc-600 w-full flex">
                                               <input
-                                                  type="text"
+                                                  type="number"
                                                   className="border border-gray-300 focus:border-blue-900 focus:ring-blue-900 rounded-md px-3 py-2 w-full"
                                                   defaultValue={item.price}
+                                                  onChange={(e) =>
+                                                      inputOnChnage(
+                                                          e.target.value,
+                                                          key,
+                                                          "price"
+                                                      )
+                                                  }
                                               />
                                               <span className="text-gray-500 p-2">
                                                   EUR
@@ -256,13 +285,11 @@ function Table({ data }) {
 
                     <tr>
                         <td></td>
-                        <td className="border-t-2">
-                            Total: {totalPrice.toFixed(2)} EUR
-                        </td>
+                        <td className="border-t-2">Total: {totalPrice} EUR</td>
                     </tr>
                     <tr className="border-t-2">
                         <td></td>
-                        <td>VAT (19%): {vat.toFixed(2)} EUR</td>
+                        <td>VAT (19%): {vat} EUR</td>
                     </tr>
                 </tbody>
             </table>
