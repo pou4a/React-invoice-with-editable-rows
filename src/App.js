@@ -1,22 +1,17 @@
 import "./App.css";
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Upload from "./components/uploadZone";
 import Table from "./components/table";
+import useFetchInvoice from "./api/Invoice";
 
 function App() {
-    const [invoiceData, setInvoiceData] = useState();
-    useEffect(() => {
-        fetchInvoice();
-    }, []);
+    const { invoiceData, isLoading, error } = useFetchInvoice();
 
-    const fetchInvoice = async () => {
-        const data = await fetch("http://localhost:3003/inovice");
-        const set = await data.json();
-        setInvoiceData(set);
-    };
-
-    if (!invoiceData) {
+    if (isLoading) {
         return <>Loading...</>;
+    }
+    if (error) {
+        return <>Server connection problem, please check back later.</>;
     }
     return (
         <>
