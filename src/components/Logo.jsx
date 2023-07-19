@@ -2,7 +2,7 @@ function Logo() {
     return (
         <img
             src="cai_logo.svg"
-            className="w-full max-w-[300px] ml-[-40px]"
+            className="w-full ml-0 max-w-[300px] sm:ml-[-40px]"
             alt="logo"
         />
     );

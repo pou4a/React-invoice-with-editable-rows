@@ -4,8 +4,11 @@ import { calculateTotalPrice } from "../utilities/priceUtils";
 import InformationTableBody from "./InformationTableBody";
 import LineItem from "./LineItem";
 import EditableLineItem from "./EditableLineItem";
+import ImportButton from "./ImportButton";
+import PrintButton from "./PrintButton";
 
 function Table({ data, handleUploadZone }) {
+    const [tableData, setTableData] = useState();
     const [editableRow, setEditableRow] = useState([]);
     const [cellData, setCellData] = useState([]);
 
@@ -28,14 +31,15 @@ function Table({ data, handleUploadZone }) {
     };
 
     useEffect(() => {
+        setTableData(data);
         setCellData(data.lineItems);
-    }, []);
+    }, [data]);
 
     const totalPrice = calculateTotalPrice(cellData);
 
     const vat = totalPrice * 0.19;
 
-    if (!data) {
+    if (!tableData) {
         return <>Loading...</>;
     }
 
@@ -43,8 +47,8 @@ function Table({ data, handleUploadZone }) {
         <>
             <table className="min-w-full divide-y divide-zinc-300">
                 <tbody>
-                    <TableHeader data={data} />
-                    <InformationTableBody data={data} />
+                    <TableHeader data={tableData} />
+                    <InformationTableBody data={tableData} />
 
                     <tr className="bg-zinc-300 print:border-b-2">
                         <th
@@ -104,19 +108,8 @@ function Table({ data, handleUploadZone }) {
             </table>
 
             <div className="mt-4 border-2 p-4 print:hidden">
-                <button
-                    onClick={handlePrint}
-                    className="bg-green-400 mr-2 text-white px-4 py-2 rounded"
-                >
-                    Print
-                </button>
-
-                <button
-                    onClick={handleUploadZone}
-                    className="bg-blue-900 text-white px-4 py-2 rounded"
-                >
-                    Import invoice
-                </button>
+                <PrintButton onClick={handlePrint} />
+                <ImportButton onClick={handleUploadZone} />
             </div>
         </>
     );

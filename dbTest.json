@@ -1,0 +1,22 @@
+{
+  "invoice": {
+    "id": "e8c5d2c7-3e86-4b4e-b3d3-29fc9234a6a8",
+    "lineItems": [
+      { "description": "Item 1", "price": 100.5 },
+      { "description": "Item 2", "price": 59.99 },
+      { "description": "Item 3", "price": 75.0 },
+      { "description": "Item 4", "price": 32.25 },
+      { "description": "Item 5", "price": 45.0 },
+      { "description": "Item 6", "price": 12.75 },
+      { "description": "Item 7", "price": 82.3 },
+      { "description": "Item 8", "price": 22.1 },
+      { "description": "Item 9", "price": 67.0 },
+      { "description": "Item 10", "price": 36.5 }
+    ],
+    "email": "john.doe@example.com",
+    "fullName": "John Doe",
+    "company": "ABC Corp",
+    "createdAt": "2023-07-19",
+    "dueAt": "2023-08-19"
+  }
+}
