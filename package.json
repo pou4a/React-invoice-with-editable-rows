@@ -20,7 +20,7 @@
   "scripts": {
     "start": "json-server --watch db.json --port 3003 & react-scripts start",
     "start:ios": "react-scripts --openssl-legacy-provider start",
-    "build": "react-scripts --openssl-legacy-provider build",
+    "build": "json-server --watch db.json --port 3003 & react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
